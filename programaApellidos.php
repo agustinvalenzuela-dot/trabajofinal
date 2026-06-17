@@ -127,10 +127,96 @@ function agregarJuego($coleccionDeJuegos, $juego) {
     return $coleccionDeJuegos;
     }    
 
-function indicePrimerJuegoGanado($coleccionDeJuegos, $nombreJugador){
 
 
+/** solucion de indicePrimerJuegoGanado escrita con el foreach, revisar
+ * function indicePrimerJuegoGanado($coleccionDeJuegos, $jugador) {
+ *   foreach ($coleccionDeJuegos as $indice => $juego) {
+ *       if ($juego["jugador1"] === $jugador && $juego["aciertos1"] > $juego["aciertos2"]) {
+ *           return $indice;
+ *       }
+ *       if ($juego["jugador2"] === $jugador && $juego["aciertos2"] > $juego["aciertos1"]) {
+ *           return $indice;
+ *       }
+ *   }
+ *   return -1; // no se encontró ningún juego ganado por ese jugador
+ * } */
+
+function indicePrimerJuegoGanado($coleccionDeJuegos, $jugador){    
+for ($i = 0; $i < count($coleccionDeJuegos); $i++) {
+        $juego = $coleccionDeJuegos[$i];
+        if ($juego["jugador1"] === $jugador && $juego["aciertos1"] > $juego["aciertos2"]) {
+            return $i;
+        }
+        if ($juego["jugador2"] === $jugador && $juego["aciertos2"] > $juego["aciertos1"]) {
+            return $i;
+        }
+    }
+    return -1;
 }
+function resumenDelJugador($coleccionDeJuegos, $jugador){  
+    // inicio el arreglo con la claves nombradas
+    $resumenDeJugador = [];
+    $resumenDeJugador =  ["nombre" => " ",
+                          "juegosGanados" => 0,
+                          "juegosPerdidos" => 0,
+                          "juegosEmpatados" => 0,
+                          "aciertosAcumulados" => 0];
+
+for ($i = 0; $i < count($coleccionDeJuegos); $i++){
+        $juego = $coleccionDeJuegos[$i];
+
+        if($juego["$jugador1"] == $jugador || $juego["$jugador2"] == $jugador){
+            if ($arregloAux["aciertos1"] == $arregloAux["aciertos2"]){
+                $acumjuegosEmpatados = $acumjuegosEmpatados + 1;
+                $acumAciertos = $acumAciertos + 2;
+            } 
+            elseif($arregloAux["aciertos1"] > $arregloAux["aciertos2"]){
+                // aca esta la rama donde gano el jugador 1
+                if ($juego["$jugador1"] == $jugador){
+                $acumJuegosGanados = $acumJuegosGanados + 1;
+                $acumAciertos = $acumAciertos + 3;
+                }
+                else{
+                $acumJuegosPerdidos = $acumJuegosPerdidos + 1;
+                $acumAciertos = $acumAciertos + 1;
+                }                
+            }
+            elseif($arregloAux["aciertos1"] < $arregloAux["aciertos2"]){
+                // aca esta la rama donde gano el jugador 2
+                if ($juego["$jugador2"] == $jugador){
+                $acumJuegosGanados = $acumJuegosGanados + 1;
+                $acumAciertos = $acumAciertos + 3;
+                }
+                else{
+                $acumJuegosPerdidos = $acumJuegosPerdidos + 1;
+                $acumAciertos = $acumAciertos + 1;
+                }
+            }
+            else{
+            }
+        }
+        else{
+            echo "no se encontro el nombre del jugador";
+        }
+    }  
+    
+    $resumenDeJugador["nombre"] = "$jugador";
+    $resumenDeJugador["juegosGanados"] = $acumJuegosGanados;
+    $resumenDeJugador["juegosPerdidos"] = $acumJuegosPerdidos;
+    $resumenDeJugador["juegosEmpatados"] = $acumjuegosEmpatados;
+    $resumenDeJugador["aciertosAcumulados"] = $acumAciertos;
+
+    echo "**************************************\n";
+    echo "Jugador: $jugador\n";
+    echo "Ganó: ".$acumJuegosGanados." juegos\n";
+    echo "Perdió: ".$acumJuegosPerdidos." juegos\n";
+    echo "Empató: ".$acumjuegosEmpatados." juegos\n";
+    echo "Total de aciertos acumulados: ".$acumAciertos." aciertos\n";    
+    echo "**************************************\n";                       
+
+    
+
 
 /**************************************/
 /*********** PROGRAMA PRINCIPAL *******/
