@@ -154,7 +154,7 @@ for ($i = 0; $i < count($coleccionDeJuegos); $i++) {
     }
     return -1;
 }
-function resumenDelJugador($coleccionDeJuegos, $jugador){  
+function resumenDelJugador($coleccionDeJuegos, $jugador){
     // inicio el arreglo con la claves nombradas
     $resumenDeJugador = [];
     $resumenDeJugador =  ["nombre" => " ",
@@ -166,14 +166,14 @@ function resumenDelJugador($coleccionDeJuegos, $jugador){
 for ($i = 0; $i < count($coleccionDeJuegos); $i++){
         $juego = $coleccionDeJuegos[$i];
 
-        if($juego["$jugador1"] == $jugador || $juego["$jugador2"] == $jugador){
-            if ($arregloAux["aciertos1"] == $arregloAux["aciertos2"]){
+        if($juego["jugador1"] == $jugador || $juego["jugador2"] == $jugador){
+            if ($juego["aciertos1"] == $juego["aciertos2"]){
                 $acumjuegosEmpatados = $acumjuegosEmpatados + 1;
                 $acumAciertos = $acumAciertos + 2;
             } 
-            elseif($arregloAux["aciertos1"] > $arregloAux["aciertos2"]){
+            elseif($juego["aciertos1"] > $juego["aciertos2"]){
                 // aca esta la rama donde gano el jugador 1
-                if ($juego["$jugador1"] == $jugador){
+                if ($juego["jugador1"] == $jugador){
                 $acumJuegosGanados = $acumJuegosGanados + 1;
                 $acumAciertos = $acumAciertos + 3;
                 }
@@ -182,9 +182,9 @@ for ($i = 0; $i < count($coleccionDeJuegos); $i++){
                 $acumAciertos = $acumAciertos + 1;
                 }                
             }
-            elseif($arregloAux["aciertos1"] < $arregloAux["aciertos2"]){
+            elseif($juego["aciertos1"] < $juego["aciertos2"]){
                 // aca esta la rama donde gano el jugador 2
-                if ($juego["$jugador2"] == $jugador){
+                if ($juego["jugador2"] == $jugador){
                 $acumJuegosGanados = $acumJuegosGanados + 1;
                 $acumAciertos = $acumAciertos + 3;
                 }
@@ -214,8 +214,54 @@ for ($i = 0; $i < count($coleccionDeJuegos); $i++){
     echo "Empató: ".$acumjuegosEmpatados." juegos\n";
     echo "Total de aciertos acumulados: ".$acumAciertos." aciertos\n";    
     echo "**************************************\n";                       
-
+}
     
+function JuegosGanados ($coleccionDeJuegos){
+    for ($i = 0; $i < count($coleccionDeJuegos); $i++) {
+        $juego = $coleccionDeJuegos[$i];   
+         
+        if($juego["aciertos1"] > $juego["aciertos2"]){
+            // aca esta la rama donde gano el jugador 1
+            $acumJuegosGanados = $acumJuegosGanados + 1;
+        }
+        elseif($juego["aciertos1"] < $juego["aciertos2"]){
+            // aca esta la rama donde gano el jugador 2
+            $acumJuegosGanados = $acumJuegosGanados + 1;
+        }
+        else{
+
+        }        
+    }
+return $acumJuegosGanados;
+}
+
+function numeroJugadorJuegosGanados($coleccionDeJuegos, $numeroJugador){
+
+    if ($numeroJugador == 1){
+        for ($i = 0; $i < count($coleccionDeJuegos); $i++) {
+            $juego = $coleccionDeJuegos[$i]; 
+            if($juego["aciertos1"] > $juego["aciertos2"]){
+                // aca esta la rama donde gano el jugador 1
+                $acumJuegosGanadosJugadorX = $acumJuegosGanadosJugadorX + 1;
+            }
+        }
+    }    
+    elseif ($numeroJugador == 2){
+        for ($i = 0; $i < count($coleccionDeJuegos); $i++) {
+            $juego = $coleccionDeJuegos[$i];   
+            if($juego["aciertos1"] < $juego["aciertos2"]){
+                // aca esta la rama donde gano el jugador 2
+                $acumJuegosGanadosJugadorX = $acumJuegosGanadosJugadorX + 1;
+            }         
+        }
+    }
+    return $acumJuegosGanadosJugadorX;
+}
+
+function deboUsarUasort(){
+
+
+}
 
 
 /**************************************/
