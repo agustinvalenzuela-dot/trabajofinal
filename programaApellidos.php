@@ -146,10 +146,10 @@ function agregarJuego($coleccionDeJuegos, $juego) {
 function indicePrimerJuegoGanado($coleccionDeJuegos, $jugador){    
     for ($i = 0; $i < count($coleccionDeJuegos); $i++) {
             $juego = $coleccionDeJuegos[$i];
-            if ($juego["jugador1"] === $jugador && $juego["aciertos1"] > $juego["aciertos2"]) {
+            if ($juego["jugador1"] == $jugador && $juego["aciertos1"] > $juego["aciertos2"]) {
                 return $i;
             }
-            if ($juego["jugador2"] === $jugador && $juego["aciertos2"] > $juego["aciertos1"]) {
+            if ($juego["jugador2"] == $jugador && $juego["aciertos2"] > $juego["aciertos1"]) {
                 return $i;
             }
         }
@@ -223,8 +223,15 @@ function resumenDelJugador($coleccionDeJuegos, $jugador){
     echo "Total de aciertos acumulados: ".$acumAciertos." aciertos\n";    
     echo "**************************************\n";                       
 }
-    
-function JuegosGanados ($coleccionDeJuegos){
+/** Retorna el total de juegos ganados.
+ *  @param array $coleccionDeJuegos
+ *  @return INT
+ *  */    
+function juegosGanados($coleccionDeJuegos){
+    // array $juego
+    // INT $acumJuegosGanados
+    $acumJuegosGanados = 0;
+
     for ($i = 0; $i < count($coleccionDeJuegos); $i++) {
         $juego = $coleccionDeJuegos[$i];   
          
@@ -243,7 +250,15 @@ function JuegosGanados ($coleccionDeJuegos){
     return $acumJuegosGanados;
 }
 
+/** Retorna el total de juegos ganados por X jugador.
+ * @param array $coleccionDeJuegos
+ * @param int $numeroJugador
+ * @return INT
+ */
 function numeroJugadorJuegosGanados($coleccionDeJuegos, $numeroJugador){
+    // array $juego
+    // int $acumJuegosGanadosJugadorX
+    $acumJuegosGanadosJugadorX = 0;
 
     if ($numeroJugador == 1){
         for ($i = 0; $i < count($coleccionDeJuegos); $i++) {
@@ -377,10 +392,20 @@ do {
         
         case 4: 
             //[4]Mostrar porcentaje de Juegos ganados.
+            $juegosEmpatados = 0;
+            $juegosGanados = 0;
+            $juegosGanados= 0;
+            
             echo "4 elegiste una opcion :) \n";
             $min = 1;
             $max = 2;
             $jugador= solicitarNumero($min, $max);
+            $juegosGanados = juegosGanados($coleccionDeJuegos);
+            $juegosJugados = count($coleccionDeJuegos);
+            $juegosEmpatados = $juegosJugados - $juegosGanados;
+
+            echo "En total se jugaron ".$juegosJugados." juegos de memoria, de los cuales ".$juegosEmpatados." son empates y ".$juegosGanados." son juegos ganados ";
+            echo "(29 son ganados por jugador 1 y 11 son ganados por jugador 2). ";
 
             break;
 
