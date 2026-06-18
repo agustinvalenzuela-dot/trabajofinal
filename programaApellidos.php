@@ -144,17 +144,21 @@ function agregarJuego($coleccionDeJuegos, $juego) {
  * @return INT
  */
 function indicePrimerJuegoGanado($coleccionDeJuegos, $jugador){    
+    $indiceFinal = 0;
     for ($i = 0; $i < count($coleccionDeJuegos); $i++) {
-            $juego = $coleccionDeJuegos[$i];
-            if ($juego["jugador1"] == $jugador && $juego["aciertos1"] > $juego["aciertos2"]) {
-                return $i;
-            }
-            if ($juego["jugador2"] == $jugador && $juego["aciertos2"] > $juego["aciertos1"]) {
-                return $i;
-            }
+        $juego = $coleccionDeJuegos[$i];
+        if ($juego["jugador1"] == $jugador && $juego["aciertos1"] > $juego["aciertos2"]){
+            return $i;
         }
-        return -1;
-}
+        if ($juego["jugador2"] == $jugador && $juego["aciertos2"] > $juego["aciertos1"]) {
+            return $i;
+        }
+    }    
+    return -1;    
+}           
+    
+        
+
 
 /** muestra en pantalla  un resumen de un jugador.
  * @param array $coleccionDeJuegos
@@ -338,7 +342,6 @@ do {
     switch ($opcion) {
         case 1: 
             //[1]Jugar a memoria.
-            echo "elegiste la opcion 1 :) \n";
             $juego = jugarMemoria();
             $coleccionDeJuegos = agregarJuego($coleccionDeJuegos,$juego);
 
@@ -347,7 +350,6 @@ do {
         case 2: 
             //[2]Mostrar un Juego.
             //int $indice
-            echo "2 elegiste una opcion :) \n";
             $min = 1;
             $max = count($coleccionDeJuegos);
             $indice = solicitarNumero($min, $max);
@@ -357,18 +359,16 @@ do {
 
         case 3: 
             //[3]Mostrar el primer juego ganador.
-            echo "3 elegiste una opcion :) \n" ;
             // me meto a un ciclo do/while para obtener un nonmbre de jugador valido.
             do{    
                 echo "ingresar el nombre del jugador que quiere ver el primer juego ganado: ";
                 //para evitar errores, uso el mismo criterio de memoria.php para guardar el nombre del jugador.
-                $jugador = ucfirst(strtolower(trim(fgets(STDIN))));        
+                $jugador=ucfirst(strtolower(trim(fgets(STDIN))));        
                 $encontrado = false;
 
                 for ($i = 0; $i < count($coleccionDeJuegos); $i++){
-
                     $juego = $coleccionDeJuegos[$i];
-                    if ($juego["jugador1"] == $jugador || $juego["jugador2"] == $jugador) {
+                    if ($juego["jugador1"] == $jugador || $juego["jugador2"] == $jugador){
                         $encontrado = true;
                     } 
                 }    
@@ -381,12 +381,15 @@ do {
                 }
             } while (!$encontrado);
 
-            $indiceAux = indicePrimerJuegoGanado($coleccionDeJuegos, $jugador);
-            if ($indiceAux = -1){
+            $indice = indicePrimerJuegoGanado($coleccionDeJuegos, $jugador);
+            
+            if ($indice == -1){
                 echo "El jugador $jugador no ganó ningún juego";
             }
             else{
-                datosDeJuego($coleccionDeJuegos, $indiceAux );
+                //en datosDejuego, el indice tiene un -1 para ser util en otra funcion.
+                $indice = $indice + 1;   
+                datosDeJuego($coleccionDeJuegos, $indice);
             }
             break;
         
@@ -411,12 +414,11 @@ do {
 
         case 5: 
             //[5]Mostrar resumen de Jugador.
-            echo "5 elegiste una opcion :) \n";
             
             do{    
                 echo "ingresar el nombre del jugador que quiere ver el resumen: ";
                 //para evitar errores, uso el mismo criterio de memoria.php para guardar el nombre del jugador.
-                $jugador = ucfirst(strtolower(trim(fgets(STDIN))));        
+                $jugador=ucfirst(strtolower(trim(fgets(STDIN))));        
                 $encontrado = false;
 
                 for ($i = 0; $i < count($coleccionDeJuegos); $i++){
@@ -457,5 +459,6 @@ do {
 //echo "jugador 1 " . $juego["jugador1"] . ": " . $juego["aciertos1"] . " aciertos" . "\n";
 //echo "jugador 2 " . $juego["jugador2"] . ": " . $juego["aciertos2"] . " aciertos" . "\n";
 
-
+//HOlaaaa esto es un comit ahhhhh
+// me gusta marathon :3
 ?>

@@ -56,6 +56,5 @@ do {
 
             break;
                     
-        //...
     }
 } while ($opcion != 7);
