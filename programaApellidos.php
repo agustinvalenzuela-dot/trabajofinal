@@ -20,18 +20,17 @@ include_once("memoria.php");
  */
 function cargarJuegos(){
     
+    $coleccionDeJuegos = [];
     $coleccionDeJuegos[0] = ["jugador1" => "Max", "aciertos1" => 3, "jugador2" => "Mona", "aciertos2" => 1];
     $coleccionDeJuegos[1] = ["jugador1" => "Michael", "aciertos1" => 1, "jugador2" => "Trevor", "aciertos2" => 3];
     $coleccionDeJuegos[2] = ["jugador1" => "Daigo", "aciertos1" => 2, "jugador2" => "Justin", "aciertos2" => 2];
-    $coleccionDeJuegos[3] = ["jugador1" => "Guile", "aciertos1" => 4, "jugador2" => "Ingrid", "aciertos2" => 0];
+    $coleccionDeJuegos[3] = ["jugador1" => "Guile", "aciertos1" => 3, "jugador2" => "Ingrid", "aciertos2" => 1];
     $coleccionDeJuegos[4] = ["jugador1" => "Max", "aciertos1" => 1, "jugador2" => "Michael", "aciertos2" => 3];
     $coleccionDeJuegos[5] = ["jugador1" => "Trevor", "aciertos1" => 2, "jugador2" => "Zangief", "aciertos2" => 2];
     $coleccionDeJuegos[6] = ["jugador1" => "Mona", "aciertos1" => 0, "jugador2" => "Justin", "aciertos2" => 4];
     $coleccionDeJuegos[7] = ["jugador1" => "Ingrid", "aciertos1" => 1, "jugador2" => "Guile", "aciertos2" => 3];
     $coleccionDeJuegos[8] = ["jugador1" => "Zangief", "aciertos1" => 3, "jugador2" => "Max", "aciertos2" => 1];
     $coleccionDeJuegos[9] = ["jugador1" => "Gye", "aciertos1" => 2, "jugador2" => "Daven", "aciertos2" => 2];
-
-    //$coleccionDeJuegos= []; la inicializacion de este arreglo va en el programa principal.
 
     return $coleccionDeJuegos;
 }
@@ -44,15 +43,18 @@ function cargarJuegos(){
  * @return int      Número válido ingresado por el usuario */
 
 function solicitarNumero($min, $max){
-    do {
+   
+    // utilizar la funcion del archivo memoria.php que se llama solicitarNumeroEntre. 
+    // do {
         $entrada = 0;
         echo "Ingrese un número entre $min y $max: ";
-        $entrada = (int) trim(fgets(STDIN));
-    
-        if ($entrada < $min || $entrada > $max){
-            echo " Error: El número debe estar entre $min y $max.\n";    
-        }
-    } while ($entrada < $min || $entrada > $max);
+        $entrada = solicitarNumeroEntre($min, $max);
+    //    $entrada = (int) trim(fgets(STDIN));
+   // 
+   //     if ($entrada < $min || $entrada > $max){
+   //         echo " Error: El número debe estar entre $min y $max.\n";    
+   //     }
+   // } while ($entrada < $min || $entrada > $max);
 return $entrada;     
 }
 
@@ -288,18 +290,18 @@ function numeroJugadorJuegosGanados($coleccionDeJuegos, $numeroJugador){
 /** funcion comparadora para el uasort
  * @param array $juegoA
  * @param array $juegoB
- * @return INT
- */
+ * @return INT */
 function compararPorJugador2($juegoA, $juegoB) {
     return $juegoA["jugador2"] <=> $juegoB["jugador2"];
+
 }
-/** Uasort papu
- * @param array $coleccionDeJuegos
- */
+/** la funcion Uasort 
+ * @param array $coleccionDeJuegos */
 function deboUsarUasort($coleccionDeJuegos){
     uasort($coleccionDeJuegos, "compararPorJugador2");
     print_r($coleccionDeJuegos);
 }
+
 
 /**************************************/
 /*********** PROGRAMA PRINCIPAL *******/
@@ -395,21 +397,28 @@ do {
         
         case 4: 
             //[4]Mostrar porcentaje de Juegos ganados.
-            $juegosEmpatados = 0;
-            $juegosGanados = 0;
-            $juegosGanados= 0;
+            //$juegosEmpatados = 0;
+            //$juegosGanados = 0;
+            //$juegosGanados= 0;
             
-            echo "4 elegiste una opcion :) \n";
-            $min = 1;
-            $max = 2;
-            $jugador= solicitarNumero($min, $max);
-            $juegosGanados = juegosGanados($coleccionDeJuegos);
-            $juegosJugados = count($coleccionDeJuegos);
-            $juegosEmpatados = $juegosJugados - $juegosGanados;
-
-            echo "En total se jugaron ".$juegosJugados." juegos de memoria, de los cuales ".$juegosEmpatados." son empates y ".$juegosGanados." son juegos ganados ";
-            echo "(29 son ganados por jugador 1 y 11 son ganados por jugador 2). ";
-
+        $totalJuegosGanados =  juegosGanados($coleccionDeJuegos);   
+            
+        $min = 1;
+        $max = 2;
+        $jugador= solicitarNumero($min, $max);
+        echo "el numero de jugador que ha seleccionado es: ".$jugador."\n";
+          if ($jugador == 1){
+                $juegosGanadosPorJugador1 = numeroJugadorJuegosGanados($coleccionDeJuegos, $jugador);
+                $porcentaje = ($juegosGanadosPorJugador1 * 100)/ $totalJuegosGanados; 
+                echo "el jugador ".$jugador." gano el ".$porcentaje." de los juegos ganados \n";
+          }
+          else{
+                $juegosGanadosPorJugador2 = numeroJugadorJuegosGanados($coleccionDeJuegos, $jugador);
+                $porcentaje = ($juegosGanadosPorJugador2 * 100)/ $totalJuegosGanados; 
+                echo "el jugador ".$jugador." gano el ".$porcentaje." de los juegos ganados \n";
+           }
+            
+            
             break;
 
         case 5: 

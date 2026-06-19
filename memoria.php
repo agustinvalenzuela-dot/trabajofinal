@@ -403,7 +403,7 @@ function limpiarPantalla() {
    //for ($i = 0; $i < 50; $i++) echo "\r\n";
    //echo chr(27).chr(91).'H'.chr(27).chr(91).'J'; // funciona bien
    //popen('clear', 'w'); // linux
-   popen('cls', 'w'); // funciona bien en windows
+   popen('clear', 'w'); // funciona bien en windows
 }
 
 /**
