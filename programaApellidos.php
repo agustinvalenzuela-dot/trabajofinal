@@ -5,21 +5,26 @@ include_once("memoria.php");
 /***** DATOS DE LOS INTEGRANTES *******/
 /**************************************/
 
-/* Apellido, Nombre. Legajo. Carrera. mail. Usuario Github */
-/* ... COMPLETAR ... */
-
-
-
-
+/** Monsalve, Axel. FAI-6073. Tecnicatura Universitaria en Administración de Sistemas y Software Libre
+ *  mail : axel.monsalve@est.fi.uncoma.edu.ar
+ *  Usuario Github : no posee.
+ * 
+ *  Valenzuela, Agustin. FAI-6199. Tecnicatura Universitaria en Administración de Sistemas y Software Libre
+ *  mail : agustin.valenzuela@est.fi.uncoma.edu.ar
+ *  Usuario Github : no posee.
+ */ 
 
 /**************************************/
 /***** DEFINICION DE FUNCIONES ********/
 /**************************************/
-/** arreglo con ejemplos de juegos
- * @return array
+
+/** 
+ * Arreglo con ejemplos de juegos.
+ * @return array 
  */
 function cargarJuegos(){
-    
+    //array $coleccionDeJuegos
+
     $coleccionDeJuegos = [];
     $coleccionDeJuegos[0] = ["jugador1" => "Max", "aciertos1" => 3, "jugador2" => "Mona", "aciertos2" => 1];
     $coleccionDeJuegos[1] = ["jugador1" => "Michael", "aciertos1" => 1, "jugador2" => "Trevor", "aciertos2" => 3];
@@ -35,33 +40,31 @@ function cargarJuegos(){
     return $coleccionDeJuegos;
 }
 
- /** Solicitar al usuario un número dentro de un rango válido.
+/** 
+ * Solicitar al usuario un número dentro de un rango válido.
  * Repite la solicitud hasta recibir un valor correcto.
  *
  * @param int $min  Valor mínimo 
  * @param int $max  Valor máximo 
- * @return int      Número válido ingresado por el usuario */
-
+ * @return int      Número válido ingresado por el usuario 
+ */
 function solicitarNumero($min, $max){
+    //int $entrada
    
-    // utilizar la funcion del archivo memoria.php que se llama solicitarNumeroEntre. 
-    // do {
-        $entrada = 0;
-        echo "Ingrese un número entre $min y $max: ";
-        $entrada = solicitarNumeroEntre($min, $max);
-    //    $entrada = (int) trim(fgets(STDIN));
-   // 
-   //     if ($entrada < $min || $entrada > $max){
-   //         echo " Error: El número debe estar entre $min y $max.\n";    
-   //     }
-   // } while ($entrada < $min || $entrada > $max);
-return $entrada;     
+    $entrada = 0;
+    echo "Ingrese un número entre $min y $max: ";
+    $entrada = solicitarNumeroEntre($min, $max);
+    
+    return $entrada;     
 }
 
-/** Mostrar en pantalla el menu y devolver la opcion que elige el usuario.
+/** 
+ * Mostrar en pantalla el menu y devolver la opcion que elige el usuario.
  * @return INT 
  */
 function seleccionarOpcion(){
+    // int $opcion, $min, $max
+
     echo "\n===== MENÚ PRINCIPAL =====\n";
     echo "[1]Jugar a memoria.\n";
     echo "[2]Mostrar un Juego.\n";
@@ -71,25 +74,24 @@ function seleccionarOpcion(){
     echo "[6]Mostrar listado de juegos Ordenado por jugador 2.\n";
     echo "[7]Salir.\n";
     
-    do {
-        echo "Ingrese una opcion del menu(1-7): ";
-        $opcion= (int) trim(fgets(STDIN));
-            if ($opcion < 1 || $opcion > 7){
-                echo "x Error: Opción fuera de rango. Elija entre 1 y 7.\n";
-            }
-    } while ($opcion < 1 || $opcion > 7);
+    $opcion = 0;
+    $min = 1;
+    $max = 7;
+    $opcion = solicitarNumero($min, $max);
 
    return $opcion;
-
 }
 
-/** Mostrar en pantalla los datos de un juego en especifico.
+/** 
+ * Mostrar en pantalla los datos de un juego en especifico.
  * @param array $coleccionDeJuegos
  * @param INT $indice
  */
 function datosDeJuego($coleccionDeJuegos, $indice){
     // array $arregloAux
+    // string $resultadojuego
 
+    //como al usuario le pedimos un juego del 1 al 10 por ejemplo, para ubicar el correcto arreglo cuyo indice va de 0 a 9, le restamos 1.
     $arregloAux = [];
     $arregloAux = $coleccionDeJuegos[$indice - 1];
 
@@ -114,44 +116,39 @@ function datosDeJuego($coleccionDeJuegos, $indice){
     echo "**************************************\n";
 }
 
-/**Agregar un nuevo juego al arreglo coleccion de juegos.
+/** 
+ * Agregar un nuevo juego al arreglo coleccion de juegos.
  * @param array $coleccionDeJuegos
  * @param array $juego
  * @return array
  */
 function agregarJuego($coleccionDeJuegos, $juego) {
     // array $coleccionDeJuegos
+    
+    //utilizar array push enves de este metodo :p
     $coleccionDeJuegos[] = $juego; //al parecer asi se agrega una nueva entrada al arreglo xd
+    
     return $coleccionDeJuegos;
-    }    
+}    
 
-
-
-/** solucion de indicePrimerJuegoGanado escrita con el foreach, revisar
- * function indicePrimerJuegoGanado($coleccionDeJuegos, $jugador) {
- *   foreach ($coleccionDeJuegos as $indice => $juego) {
- *       if ($juego["jugador1"] === $jugador && $juego["aciertos1"] > $juego["aciertos2"]) {
- *           return $indice;
- *       }
- *       if ($juego["jugador2"] === $jugador && $juego["aciertos2"] > $juego["aciertos1"]) {
- *           return $indice;
- *       }
- *   }
- *   return -1; // no se encontró ningún juego ganado por ese jugador
- * } */
-
-/** Obtener el indice del primer juego ganado de un jugador.
+/** 
+ * Obtener el indice del primer juego ganado de un jugador.
  * @param array $coleccionDeJuegos
  * @param STRING $jugador
  * @return INT
  */
 function indicePrimerJuegoGanado($coleccionDeJuegos, $jugador){    
-    $indiceFinal = 0;
+    // array $juego
+
+
     for ($i = 0; $i < count($coleccionDeJuegos); $i++) {
         $juego = $coleccionDeJuegos[$i];
+        
+        // verifica si nuestro jugador es jugador 1 y ganó el juego.
         if ($juego["jugador1"] == $jugador && $juego["aciertos1"] > $juego["aciertos2"]){
             return $i;
         }
+        // verifica si nuestro jugador es jugador 2 y ganó el juego.
         if ($juego["jugador2"] == $jugador && $juego["aciertos2"] > $juego["aciertos1"]) {
             return $i;
         }
@@ -159,10 +156,8 @@ function indicePrimerJuegoGanado($coleccionDeJuegos, $jugador){
     return -1;    
 }           
     
-        
-
-
-/** muestra en pantalla  un resumen de un jugador.
+/** 
+ * Muestra en pantalla  un resumen de un jugador.
  * @param array $coleccionDeJuegos
  * @param STRING $jugador
  */
@@ -170,15 +165,14 @@ function resumenDelJugador($coleccionDeJuegos, $jugador){
     // array $resumenDeJugador, $juego
     // int $acumjuegosEmpatados, $acumAciertos, $acumJuegosGanados, $acumJuegosPerdidos
 
-    // inicio el arreglo con la claves nombradas
-    $resumenDeJugador = [];
-    $resumenDeJugador =  ["nombre" => " ", "juegosGanados" => 0, "juegosPerdidos" => 0, "juegosEmpatados" => 0, "aciertosAcumulados" => 0];
+    // inicio el arreglo asociativo $resumenDeJugador y nombro sus claves
+    //$resumenDeJugador = [];
+    //$resumenDeJugador =  ["nombre" => " ", "juegosGanados" => 0, "juegosPerdidos" => 0, "juegosEmpatados" => 0, "aciertosAcumulados" => 0];
     $acumjuegosEmpatados = 0;
     $acumAciertos = 0;
     $acumJuegosGanados = 0;
     $acumJuegosPerdidos = 0;
 
-    //
     for ($i = 0; $i < count($coleccionDeJuegos); $i++){
         $juego = $coleccionDeJuegos[$i];
 
@@ -214,12 +208,12 @@ function resumenDelJugador($coleccionDeJuegos, $jugador){
         }
     }
       
-    
-    $resumenDeJugador["nombre"] = "$jugador";
-    $resumenDeJugador["juegosGanados"] = $acumJuegosGanados;
-    $resumenDeJugador["juegosPerdidos"] = $acumJuegosPerdidos;
-    $resumenDeJugador["juegosEmpatados"] = $acumjuegosEmpatados;
-    $resumenDeJugador["aciertosAcumulados"] = $acumAciertos;
+    //guardo los valores de mis variables en $resumenDeJugador 
+    //$resumenDeJugador["nombre"] = "$jugador";
+    //$resumenDeJugador["juegosGanados"] = $acumJuegosGanados;
+    //$resumenDeJugador["juegosPerdidos"] = $acumJuegosPerdidos;
+    //$resumenDeJugador["juegosEmpatados"] = $acumjuegosEmpatados;
+    //$resumenDeJugador["aciertosAcumulados"] = $acumAciertos;
 
     echo "**************************************\n";
     echo "Jugador: $jugador\n";
@@ -229,10 +223,11 @@ function resumenDelJugador($coleccionDeJuegos, $jugador){
     echo "Total de aciertos acumulados: ".$acumAciertos." aciertos\n";    
     echo "**************************************\n";                       
 }
-/** Retorna el total de juegos ganados.
- *  @param array $coleccionDeJuegos
- *  @return INT
- *  */    
+/** 
+ * Retorna el total de juegos ganados.
+ * @param array $coleccionDeJuegos
+ * @return INT
+ */    
 function juegosGanados($coleccionDeJuegos){
     // array $juego
     // INT $acumJuegosGanados
@@ -256,7 +251,8 @@ function juegosGanados($coleccionDeJuegos){
     return $acumJuegosGanados;
 }
 
-/** Retorna el total de juegos ganados por X jugador.
+/** 
+ * Retorna el total de juegos ganados por X jugador.
  * @param array $coleccionDeJuegos
  * @param int $numeroJugador
  * @return INT
@@ -287,16 +283,21 @@ function numeroJugadorJuegosGanados($coleccionDeJuegos, $numeroJugador){
     return $acumJuegosGanadosJugadorX;
 }
 
-/** funcion comparadora para el uasort
+/** 
+ * Función comparadora para el uasort.
  * @param array $juegoA
  * @param array $juegoB
- * @return INT */
+ * @return INT 
+ */
 function compararPorJugador2($juegoA, $juegoB) {
+    
     return $juegoA["jugador2"] <=> $juegoB["jugador2"];
 
 }
-/** la funcion Uasort 
- * @param array $coleccionDeJuegos */
+/** 
+ * La función Uasort.
+ * @param array $coleccionDeJuegos 
+ */
 function deboUsarUasort($coleccionDeJuegos){
     uasort($coleccionDeJuegos, "compararPorJugador2");
     print_r($coleccionDeJuegos);
@@ -308,33 +309,26 @@ function deboUsarUasort($coleccionDeJuegos){
 /**************************************/
 
 //Declaración de variables:
-
+// int $indice $opcion $min $max $totalJuegosGanados $juegosGanadosPorJugador1 $juegosGanadosPorJugador2
+// float $porcentaje
+// array $coleccionDeJuegos $juego
+// string $jugador
+// bool $encontrado
 
 //Inicialización de variables:
 
 $coleccionDeJuegos = [];
 $coleccionDeJuegos = cargarJuegos();
-
 $juego = [];
-$juego = ["jugador1" => " ",
-          "aciertos1" => 0,
-          "jugador2" => " ",
-          "aciertos2" => 0];
-          
+//$juego = ["jugador1" => " ", "aciertos1" => 0, "jugador2" => " ", "aciertos2" => 0];
 $indice = 0;
 $jugador = " ";
-
-
-// inicio el arreglo con la claves nombradas
-$resumenDeJugador = [];
-$resumenDeJugador =  ["nombre" => " ",
-                     "juegosGanados" => 0,
-                     "juegosPerdidos" => 0,
-                     "juegosEmpatados" => 0,
-                     "aciertosAcumulados" => 0];
+$encontrado = false;
+$totalJuegosGanados = 0;
+$juegosGanadosPorJugador1 = 0;
+$porcentaje = 0;
 
 //Proceso:
-
 
 
 do {
@@ -351,11 +345,11 @@ do {
 
         case 2: 
             //[2]Mostrar un Juego.
-            //int $indice
+            
             $min = 1;
             $max = count($coleccionDeJuegos);
             $indice = solicitarNumero($min, $max);
-            datosDeJuego($coleccionDeJuegos, $indice );
+            datosDeJuego($coleccionDeJuegos, $indice);
 
             break;
 
@@ -366,7 +360,6 @@ do {
                 echo "ingresar el nombre del jugador que quiere ver el primer juego ganado: ";
                 //para evitar errores, uso el mismo criterio de memoria.php para guardar el nombre del jugador.
                 $jugador=ucfirst(strtolower(trim(fgets(STDIN))));        
-                $encontrado = false;
 
                 for ($i = 0; $i < count($coleccionDeJuegos); $i++){
                     $juego = $coleccionDeJuegos[$i];
@@ -389,7 +382,7 @@ do {
                 echo "El jugador $jugador no ganó ningún juego";
             }
             else{
-                //en datosDejuego, el indice tiene un -1 para ser util en otra funcion.
+                //La función datosDeJuego esta escrita con un $indice - 1 para facilitar el case anterior. Es por eso que en la siguiente linea le sumamos 1.
                 $indice = $indice + 1;   
                 datosDeJuego($coleccionDeJuegos, $indice);
             }
@@ -397,26 +390,23 @@ do {
         
         case 4: 
             //[4]Mostrar porcentaje de Juegos ganados.
-            //$juegosEmpatados = 0;
-            //$juegosGanados = 0;
-            //$juegosGanados= 0;
             
-        $totalJuegosGanados =  juegosGanados($coleccionDeJuegos);   
+            $totalJuegosGanados =  juegosGanados($coleccionDeJuegos);   
             
-        $min = 1;
-        $max = 2;
-        $jugador= solicitarNumero($min, $max);
-        echo "el numero de jugador que ha seleccionado es: ".$jugador."\n";
-          if ($jugador == 1){
-                $juegosGanadosPorJugador1 = numeroJugadorJuegosGanados($coleccionDeJuegos, $jugador);
-                $porcentaje = ($juegosGanadosPorJugador1 * 100)/ $totalJuegosGanados; 
-                echo "el jugador ".$jugador." gano el ".$porcentaje." de los juegos ganados \n";
-          }
-          else{
-                $juegosGanadosPorJugador2 = numeroJugadorJuegosGanados($coleccionDeJuegos, $jugador);
-                $porcentaje = ($juegosGanadosPorJugador2 * 100)/ $totalJuegosGanados; 
-                echo "el jugador ".$jugador." gano el ".$porcentaje." de los juegos ganados \n";
-           }
+            $min = 1;
+            $max = 2;
+            $jugador= solicitarNumero($min, $max);
+            echo "el numero de jugador que ha seleccionado es: ".$jugador."\n";
+              if ($jugador == 1){
+                    $juegosGanadosPorJugador1 = numeroJugadorJuegosGanados($coleccionDeJuegos, $jugador);
+                    $porcentaje = ($juegosGanadosPorJugador1 * 100)/ $totalJuegosGanados; 
+                    echo "el jugador ".$jugador." gano el ".$porcentaje." de los juegos ganados \n";
+              }
+              else{
+                    $juegosGanadosPorJugador2 = numeroJugadorJuegosGanados($coleccionDeJuegos, $jugador);
+                    $porcentaje = ($juegosGanadosPorJugador2 * 100)/ $totalJuegosGanados; 
+                    echo "el jugador ".$jugador." gano el ".$porcentaje." de los juegos ganados \n";
+               }
             
             
             break;
@@ -451,23 +441,11 @@ do {
 
         case 6: 
             //[6]Mostrar listado de juegos Ordenado por jugador 2.
-            echo "6 elegiste una opcion :) \n";
+
             deboUsarUasort($coleccionDeJuegos);
             break;
-                    
-        
     }
 //[7]Salir.
 } while ($opcion != 7); 
 
-
-
-// Estas 3 líneas de código ejecutan el juego y muestran el arreglo retornado con los resultado
-// Probar la primera vez y luego comentar/borrar
-//$juego = jugarMemoria();
-//echo "jugador 1 " . $juego["jugador1"] . ": " . $juego["aciertos1"] . " aciertos" . "\n";
-//echo "jugador 2 " . $juego["jugador2"] . ": " . $juego["aciertos2"] . " aciertos" . "\n";
-
-//HOlaaaa esto es un comit ahhhhh
-// me gusta marathon :3
 ?>
