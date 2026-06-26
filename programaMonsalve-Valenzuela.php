@@ -102,12 +102,10 @@ function datosDeJuego($coleccionDeJuegos, $indice){
     elseif($arregloAux["aciertos1"] > $arregloAux["aciertos2"]){
         $resultadojuego = "(gano jugador 1)";
     }
-    elseif($arregloAux["aciertos1"] < $arregloAux["aciertos2"]){
+    else{
         $resultadojuego = "(gano jugador 2)";
     }
-    else{
-
-    }
+    
         
     echo "**************************************\n";
     echo "Juego MEMORIA: ".$indice." ".$resultadojuego."\n";
@@ -148,15 +146,12 @@ function indicePrimerJuegoGanado($coleccionDeJuegos, $jugador){
     while ($i < count($coleccionDeJuegos) && $salir) {
         $juego = $coleccionDeJuegos[$i];
 
-        // verifica si nuestro jugador es jugador 1 y ganó el juego.
-        if ($juego["jugador1"] == $jugador && $juego["aciertos1"] > $juego["aciertos2"]){
+        // verifica si nuestro jugador es jugador 1 ó 2 y ganó el juego.
+        if (($juego["jugador1"] == $jugador && $juego["aciertos1"] > $juego["aciertos2"]) 
+            || ($juego["jugador2"] == $jugador && $juego["aciertos2"] > $juego["aciertos1"])){
             $resultado = $i;
             $salir = false;
-        }
-        // verifica si nuestro jugador es jugador 2 y ganó el juego.
-        if ($juego["jugador2"] == $jugador && $juego["aciertos2"] > $juego["aciertos1"]){
-            $resultado = $i;
-            $salir = false;
+
         }
 
         $i++;
@@ -171,9 +166,6 @@ function indicePrimerJuegoGanado($coleccionDeJuegos, $jugador){
  * @param STRING $jugador
  */
 function resumenDelJugador($coleccionDeJuegos, $jugador){
-    // array $juego
-    // int $acumjuegosEmpatados, $acumAciertos, $acumJuegosGanados, $acumJuegosPerdidos
-
     $acumjuegosEmpatados = 0;
     $acumAciertos = 0;
     $acumJuegosGanados = 0;
@@ -182,45 +174,41 @@ function resumenDelJugador($coleccionDeJuegos, $jugador){
     for ($i = 0; $i < count($coleccionDeJuegos); $i++){
         $juego = $coleccionDeJuegos[$i];
 
-        if($juego["jugador1"] == $jugador || $juego["jugador2"] == $jugador){
-            if ($juego["aciertos1"] == $juego["aciertos2"]){
+        if($juego["jugador1"] == $jugador || $juego["jugador2"] == $jugador){ 
+            if ($juego["aciertos1"] == $juego["aciertos2"]){ 
                 $acumjuegosEmpatados = $acumjuegosEmpatados + 1;
                 $acumAciertos = $acumAciertos + 2;
             } 
             elseif($juego["aciertos1"] > $juego["aciertos2"]){
-                // aca esta la rama donde gano el jugador 1
                 if ($juego["jugador1"] == $jugador){
-                $acumJuegosGanados = $acumJuegosGanados + 1;
-                $acumAciertos = $acumAciertos + 3;
+                    $acumJuegosGanados = $acumJuegosGanados + 1;
+                    $acumAciertos = $acumAciertos + 3;
                 }
                 else{
-                $acumJuegosPerdidos = $acumJuegosPerdidos + 1;
-                $acumAciertos = $acumAciertos + 1;
+                    $acumJuegosPerdidos = $acumJuegosPerdidos + 1;
+                    $acumAciertos = $acumAciertos + 1;
                 }                
             }
-            elseif($juego["aciertos1"] < $juego["aciertos2"]){
-                // aca esta la rama donde gano el jugador 2
+            else {
                 if ($juego["jugador2"] == $jugador){
-                $acumJuegosGanados = $acumJuegosGanados + 1;
-                $acumAciertos = $acumAciertos + 3;
+                    $acumJuegosGanados = $acumJuegosGanados + 1;
+                    $acumAciertos = $acumAciertos + 3;
                 }
                 else{
-                $acumJuegosPerdidos = $acumJuegosPerdidos + 1;
-                $acumAciertos = $acumAciertos + 1;
+                    $acumJuegosPerdidos = $acumJuegosPerdidos + 1;
+                    $acumAciertos = $acumAciertos + 1;
                 }
-            }
-            else{
             }
         }
     }
       
-    echo "**************************************\n";
+    echo "**************\n";
     echo "Jugador: $jugador\n";
     echo "Ganó: ".$acumJuegosGanados." juegos\n";
     echo "Perdió: ".$acumJuegosPerdidos." juegos\n";
     echo "Empató: ".$acumjuegosEmpatados." juegos\n";
     echo "Total de aciertos acumulados: ".$acumAciertos." aciertos\n";    
-    echo "**************************************\n";                       
+    echo "**************\n";                       
 }
 /** 
  * Retorna el total de juegos ganados.
@@ -235,17 +223,9 @@ function juegosGanados($coleccionDeJuegos){
     for ($i = 0; $i < count($coleccionDeJuegos); $i++) {
         $juego = $coleccionDeJuegos[$i];   
          
-        if($juego["aciertos1"] > $juego["aciertos2"]){
-            // aca esta la rama donde gano el jugador 1
+        if ($juego["aciertos1"] != $juego["aciertos2"]){
             $acumJuegosGanados = $acumJuegosGanados + 1;
         }
-        elseif($juego["aciertos1"] < $juego["aciertos2"]){
-            // aca esta la rama donde gano el jugador 2
-            $acumJuegosGanados = $acumJuegosGanados + 1;
-        }
-        else{
-
-        }        
     }
     return $acumJuegosGanados;
 }
@@ -264,7 +244,8 @@ function numeroJugadorJuegosGanados($coleccionDeJuegos, $numeroJugador){
         for ($i = 0; $i < count($coleccionDeJuegos); $i++) {
             $juego = $coleccionDeJuegos[$i]; 
 
-            if(($numeroJugador == 1) && ($juego["aciertos1"] > $juego["aciertos2"]) || ($numeroJugador == 2) && ($juego["aciertos1"] < $juego["aciertos2"])){
+            if(($numeroJugador == 1) && ($juego["aciertos1"] > $juego["aciertos2"]) 
+                || ($numeroJugador == 2) && ($juego["aciertos1"] < $juego["aciertos2"])){
 
                 $acumJuegosGanadosJugadorX = $acumJuegosGanadosJugadorX + 1;
         }
@@ -376,18 +357,14 @@ do {
                 if ($jugador == 1){
                         $juegosGanadosPorJugador1 = numeroJugadorJuegosGanados($coleccionDeJuegos, $jugador);
                         $porcentaje = ($juegosGanadosPorJugador1 * 100)/ $totalJuegosGanados; 
-                        echo "el jugador ".$jugador." gano el ".number_format($porcentaje, 3)." de los juegos ganados \n";
+                        echo "el jugador ".$jugador." gano el ".number_format($porcentaje, 3)."% de los juegos ganados \n";
                 }
                 else{
                         $juegosGanadosPorJugador2 = numeroJugadorJuegosGanados($coleccionDeJuegos, $jugador);
                         $porcentaje = ($juegosGanadosPorJugador2 * 100)/ $totalJuegosGanados; 
-                        echo "el jugador ".$jugador." gano el ".number_format($porcentaje, 3)." de los juegos ganados \n";
+                        echo "el jugador ".$jugador." gano el ".number_format($porcentaje, 3)."% de los juegos ganados \n";
                 }
             }
-            else {
-
-            }
-
             
             break;
 
@@ -395,27 +372,28 @@ do {
             //[5]Mostrar resumen de Jugador.
 
 
-         echo "ingresar el nombre del jugador que quiere ver el resumen: ";
-         $jugador = ucfirst(strtolower(trim(fgets(STDIN))));         
+            echo "ingresar el nombre del jugador que quiere ver el resumen: ";
+            $jugador = ucfirst(strtolower(trim(fgets(STDIN))));         
 
-         $encontrado = false;                
-         $i = 0;        
+            $encontrado = false;                
+            $i = 0;        
 
-         while ($i < count($coleccionDeJuegos) && !$encontrado) {
-         $juego = $coleccionDeJuegos[$i];
+            while ($i < count($coleccionDeJuegos) && !$encontrado) {
+            $juego = $coleccionDeJuegos[$i];
 
-             if ($juego["jugador1"] == $jugador || $juego["jugador2"] == $jugador) {
-             $encontrado = true;
-             } 
-         $i++;
-         }
+                if ($juego["jugador1"] == $jugador || $juego["jugador2"] == $jugador) {
+                $encontrado = true;
+                } 
+            $i++;
+            }
 
-             if ($encontrado) {
-             echo "$jugador se encuentra en la colección de juegos.\n";
-             resumenDelJugador($coleccionDeJuegos, $jugador);
-             }else {
-                  echo "$jugador NO se encuentra en la colección de juegos.\n";
-                 }
+                if ($encontrado) {
+                echo "$jugador se encuentra en la colección de juegos.\n";
+                resumenDelJugador($coleccionDeJuegos, $jugador);
+                }
+                else {
+                    echo "$jugador NO se encuentra en la colección de juegos.\n";
+                }
 
             break;
 
