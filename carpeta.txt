@@ -1,8 +1,0 @@
-1.	leer docx
-
-2. 	memoria.php
-	programa Apellidos.php
-	Aclaracion: en la misma carpeta deben estar ambos archivos para que funcione el programa. 
-	
-3.1	.xlss es el apartado grafico.
-	

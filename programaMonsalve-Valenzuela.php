@@ -261,26 +261,18 @@ function numeroJugadorJuegosGanados($coleccionDeJuegos, $numeroJugador){
     // int $acumJuegosGanadosJugadorX
     $acumJuegosGanadosJugadorX = 0;
 
-    if ($numeroJugador == 1){
         for ($i = 0; $i < count($coleccionDeJuegos); $i++) {
             $juego = $coleccionDeJuegos[$i]; 
-            if($juego["aciertos1"] > $juego["aciertos2"]){
-                // aca esta la rama donde gano el jugador 1
+
+            if(($numeroJugador == 1) && ($juego["aciertos1"] > $juego["aciertos2"]) || ($numeroJugador == 2) && ($juego["aciertos1"] < $juego["aciertos2"])){
+
                 $acumJuegosGanadosJugadorX = $acumJuegosGanadosJugadorX + 1;
-            }
         }
-    }    
-    elseif ($numeroJugador == 2){
-        for ($i = 0; $i < count($coleccionDeJuegos); $i++) {
-            $juego = $coleccionDeJuegos[$i];   
-            if($juego["aciertos1"] < $juego["aciertos2"]){
-                // aca esta la rama donde gano el jugador 2
-                $acumJuegosGanadosJugadorX = $acumJuegosGanadosJugadorX + 1;
-            }         
         }
-    }
-    return $acumJuegosGanadosJugadorX;
+
+        return $acumJuegosGanadosJugadorX; 
 }
+
 
 /** 
  * Función comparadora para el uasort.
@@ -319,6 +311,7 @@ function deboUsarUasort($coleccionDeJuegos){
 $coleccionDeJuegos = [];
 $coleccionDeJuegos = cargarJuegos();
 $juego = [];
+$juego = ["jugador1" => " ", "aciertos1" => 0, "jugador2" => " ", "aciertos2" => 0];
 $indice = 0;
 $jugador = " ";
 $encontrado = false;
@@ -401,27 +394,31 @@ do {
         case 5: 
             //[5]Mostrar resumen de Jugador.
 
-            $encontrado = false;                
-            $i = 0;        
 
-            while ($i < count($coleccionDeJuegos) && !$encontrado) {
-                $juego = $coleccionDeJuegos[$i];
-                
-                echo "ingresar el nombre del jugador que quiere ver el resumen: ";
-                $jugador=ucfirst(strtolower(trim(fgets(STDIN))));        
+         echo "ingresar el nombre del jugador que quiere ver el resumen: ";
+         $jugador = ucfirst(strtolower(trim(fgets(STDIN))));         
 
-                if ($juego["jugador1"] == $jugador || $juego["jugador2"] == $jugador){
-                    $encontrado = true;
-                } 
-                $i++;
-                if ($encontrado) {
-                echo "$jugador se encuentra en la colección de juegos.\n";
-                } else {
-                echo "$jugador NO se encuentra en la colección de juegos.\n";
-                }
-            }
-            resumenDelJugador($coleccionDeJuegos, $jugador);
+         $encontrado = false;                
+         $i = 0;        
+
+         while ($i < count($coleccionDeJuegos) && !$encontrado) {
+         $juego = $coleccionDeJuegos[$i];
+
+             if ($juego["jugador1"] == $jugador || $juego["jugador2"] == $jugador) {
+             $encontrado = true;
+             } 
+         $i++;
+         }
+
+             if ($encontrado) {
+             echo "$jugador se encuentra en la colección de juegos.\n";
+             resumenDelJugador($coleccionDeJuegos, $jugador);
+             }else {
+                  echo "$jugador NO se encuentra en la colección de juegos.\n";
+                 }
+
             break;
+
 
         case 6: 
             //[6]Mostrar listado de juegos Ordenado por jugador 2.
